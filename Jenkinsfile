@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    environment {
+            GIT_URL = "https://github.com/matt-allstate/fullstack-payments"
+            IMAGE_NAME = "payments"
+        }
+    stages {
+        stage('GetFromGithub') {
+            steps {
+                git branch: 'main', url: GIT_URL
+            }
+        }
+        stage('Ensure Maven is runnable') {
+            steps {
+                sh 'chmod a+x mvnw'
+            }
+        }
+        stage('Maven Unit tests') {
+            steps {
+                sh './mvnw test'
+            }
+        }
+        stage('Maven build') {
+            steps {
+                sh './mvnw clean package'
+            }
+        }
+
+        stage('Docker image build') {
+            steps {
+                sh 'docker image build -t${IMAGE_NAME} .'
+            }
+        }
+
+        stage('Update docker-compose to use the new version') {
+            steps {
+                sh 'sudo -u student /usr/local/bin/docker-compose up -d'
+            }
+        }
+         
+    }
+}
