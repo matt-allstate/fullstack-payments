@@ -34,7 +34,7 @@ pipeline {
 
         stage('Update docker-compose to use the new version') {
             steps {
-                sh 'sudo -u student /usr/local/bin/docker-compose up -d'
+                sh 'sudo -u student /usr/local/bin/docker-compose -f /home/student/docker-compose.yaml  up -d'
             }
         }
          
