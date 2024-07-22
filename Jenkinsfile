@@ -3,6 +3,8 @@ pipeline {
     environment {
             GIT_URL = "https://github.com/matt-allstate/fullstack-payments"
             IMAGE_NAME = "payments"
+            DBUSER = credentials('DBUSER')
+            DBPASSWORD = credentials('DBPASSWORD')
         }
     stages {
         stage('GetFromGithub') {
