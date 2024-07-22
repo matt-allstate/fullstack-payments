@@ -28,7 +28,7 @@ pipeline {
 
         stage('Docker image build') {
             steps {
-                sh 'docker image build -t${IMAGE_NAME} .'
+                sh 'docker image build -t${IMAGE_NAME} --build-arg DBUSER=$DBUSER --build-arg DBPASSWORD=$DBPASSWORD .'
             }
         }
 
